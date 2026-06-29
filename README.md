@@ -46,49 +46,94 @@ Azure / AWS / Anthropic service tables for every pattern above — separated fro
 
 ## Example architecture diagrams
 
-Two of the most-used patterns — rendered here so you can see the visual style before diving in.
-
-**Enterprise RAG** — the default starting pattern for most enterprise GenAI work. Two flows share one vector store: an offline ingestion pipeline and an online serving path.
+**Enterprise RAG — adding AI to existing applications without replacing them.**
+Four layers show the complete picture: your existing data sources, the ingestion pipeline that keeps the vector store current, the AI platform that handles every live query, and the new AI-powered surfaces your users see. Each node shows a concrete example service so you can map it directly to your stack.
 
 ```mermaid
 flowchart TB
-    subgraph ingestion [" Offline ingestion "]
+    subgraph sources [" Existing data sources "]
         direction LR
-        DOC["Documents"] --> CHUNK["Chunk + embed"]
-        CHUNK --> VEC[("Vector store")]
+        DB[("Structured data\nPostgres · Oracle · SQL Server")]
+        DOCS["Unstructured content\nSharePoint · Confluence · S3 · PDFs"]
     end
 
-    subgraph serving [" Online serving "]
+    subgraph ingest [" Ingestion pipeline  (scheduled or event-driven) "]
         direction LR
-        REQ["User request"] --> ORCH["Orchestrator"]
-        ORCH -- "retrieve" --> VEC
-        VEC -- "top-k chunks" --> ORCH
-        ORCH --> LLM["LLM"]
-        LLM --> RESP["Response\n+ citations"]
+        CHUNK["Parse & chunk\nUnstructured.io · Azure Document Intelligence"]
+        EMBED["Embedding model\ntext-embedding-3 · Cohere Embed · BGE-M3"]
+        VEC[("Vector store\npgvector · Azure AI Search · OpenSearch · Pinecone")]
+        CHUNK --> EMBED --> VEC
     end
+
+    subgraph platform [" AI platform layer "]
+        direction LR
+        GW["GenAI Gateway\nauth · rate-limit · cost tracking"]
+        GUARD_IN["Input guardrails\nPII detection · prompt injection · scope check"]
+        ORCH["Orchestrator\nLangChain · Semantic Kernel · Bedrock Agents · LlamaIndex"]
+        LLM["LLM\nGPT-4o · Claude Sonnet · Gemini · Llama 3"]
+        GUARD_OUT["Output guardrails\ngrounding check · PII scrub · toxicity filter"]
+    end
+
+    subgraph modern [" Modernized application surfaces "]
+        direction LR
+        COPILOT["AI Copilot\nembedded in existing UI"]
+        SEARCH["Semantic search\nreplaces keyword search"]
+        AUTO["Auto-drafts & triage\nsummarization · email drafting · ticket routing"]
+    end
+
+    DB -->|"structured records"| CHUNK
+    DOCS -->|"unstructured docs"| CHUNK
+
+    COPILOT --> GW
+    SEARCH --> GW
+    AUTO --> GW
+    GW --> GUARD_IN --> ORCH
+    ORCH -->|"retrieve top-k"| VEC
+    VEC -->|"chunks + source refs"| ORCH
+    ORCH --> LLM -->|"generation"| ORCH
+    ORCH --> GUARD_OUT --> RESP["Grounded response\n+ cited sources"]
 
     style VEC fill:#E1F5EE,stroke:#0F6E56,stroke-width:1px,color:#111111
+    style EMBED fill:#F1EFE8,stroke:#5F5E5A,stroke-width:1px,color:#111111
     style ORCH fill:#EEEDFE,stroke:#534AB7,stroke-width:1px,color:#111111
     style LLM fill:#EEEDFE,stroke:#534AB7,stroke-width:1px,color:#111111
+    style GW fill:#EEEDFE,stroke:#534AB7,stroke-width:1px,color:#111111
+    style GUARD_IN fill:#F1EFE8,stroke:#5F5E5A,stroke-width:1px,color:#111111
+    style GUARD_OUT fill:#F1EFE8,stroke:#5F5E5A,stroke-width:1px,color:#111111
+    style RESP fill:#F1EFE8,stroke:#5F5E5A,stroke-width:1px,color:#111111
+    style COPILOT fill:#E1F5EE,stroke:#0F6E56,stroke-width:1px,color:#111111
+    style SEARCH fill:#E1F5EE,stroke:#0F6E56,stroke-width:1px,color:#111111
+    style AUTO fill:#E1F5EE,stroke:#0F6E56,stroke-width:1px,color:#111111
 ```
 
-**Tool-using agent** — when the task requires adaptive planning: the model runs a plan → act → observe loop, calling tools until it has a final answer.
+**Tool-using agent with MCP** — when the task requires the model to decide its own sequence of steps at runtime. The agent calls tools through a single MCP Server interface; five concrete categories show what those tools typically are in production.
 
 ```mermaid
 flowchart LR
-    REQ["Request"] --> AGENT["Agent (FM)\nplan → act → observe"]
+    REQ["Request"] --> AGENT["Agent\nplan → act → observe"]
     AGENT --> RESP["Response"]
-    KB[("Knowledge base")] <--> AGENT
-    TOOLS["Tools / APIs"] <--> AGENT
-    MEM[("Memory")] <--> AGENT
+    KB[("Knowledge base\npolicy docs · product catalog")] <--> AGENT
+    MEM[("Session memory\nRedis · DynamoDB")] <--> AGENT
+    AGENT <-->|"tool calls (MCP)"| MCP["MCP Server"]
+
+    MCP --> T1["CRM\nSalesforce · HubSpot"]
+    MCP --> T2["Ticketing\nJira · ServiceNow"]
+    MCP --> T3["Internal APIs\nREST · GraphQL endpoints"]
+    MCP --> T4["Email & calendar\nOutlook · Google Workspace"]
+    MCP --> T5["Code execution\nPython sandbox · SQL runner"]
 
     style AGENT fill:#EEEDFE,stroke:#534AB7,stroke-width:1px,color:#111111
     style KB fill:#E1F5EE,stroke:#0F6E56,stroke-width:1px,color:#111111
-    style TOOLS fill:#E1F5EE,stroke:#0F6E56,stroke-width:1px,color:#111111
     style MEM fill:#E1F5EE,stroke:#0F6E56,stroke-width:1px,color:#111111
+    style MCP fill:#F1EFE8,stroke:#5F5E5A,stroke-width:1px,color:#111111
+    style T1 fill:#F1EFE8,stroke:#5F5E5A,stroke-width:1px,color:#111111
+    style T2 fill:#F1EFE8,stroke:#5F5E5A,stroke-width:1px,color:#111111
+    style T3 fill:#F1EFE8,stroke:#5F5E5A,stroke-width:1px,color:#111111
+    style T4 fill:#F1EFE8,stroke:#5F5E5A,stroke-width:1px,color:#111111
+    style T5 fill:#F1EFE8,stroke:#5F5E5A,stroke-width:1px,color:#111111
 ```
 
-> **Color key:** purple = compute / reasoning components · teal = data / knowledge resources · gray = deterministic steps or plain I/O
+> **Color key:** purple = compute / reasoning · teal = data / knowledge resources · gray = deterministic steps, tools, or plain I/O
 
 See [Section III](sections/03-core-patterns.md) for all four patterns with full trade-off tables.
 

@@ -48,7 +48,7 @@ The unit of task automation. A foundation model runs a **plan → act → observ
 
 ```mermaid
 flowchart LR
-    REQ["Request"] --> AGENT["Agent (FM)\nplan → act → observe"]
+    REQ["Request"] --> AGENT["Agent\nplan → act → observe"]
     AGENT --> RESP["Response"]
     KB[("Knowledge base")] <--> AGENT
     TOOLS["Tools / APIs"] <--> AGENT
@@ -104,13 +104,19 @@ The **Model Context Protocol (MCP)** and similar tool-calling standards are what
 ```mermaid
 flowchart LR
     AGENT["Agent / orchestrator"] -- "standard tool-call interface" --> MCP["MCP server"]
-    MCP --> SYS1["CRM"]
-    MCP --> SYS2["Ticketing"]
-    MCP --> SYS3["Internal APIs"]
-    MCP --> SYS4["Databases"]
+    MCP --> SYS1["CRM\nSalesforce · HubSpot · Dynamics"]
+    MCP --> SYS2["Ticketing\nJira · ServiceNow · Zendesk"]
+    MCP --> SYS3["Internal APIs\nREST · GraphQL · gRPC"]
+    MCP --> SYS4["Databases\nPostgres · DynamoDB · Snowflake"]
+    MCP --> SYS5["Email & calendar\nOutlook · Google Workspace"]
 
     style AGENT fill:#EEEDFE,stroke:#534AB7,stroke-width:1px,color:#111111
     style MCP fill:#F1EFE8,stroke:#5F5E5A,stroke-width:1px,color:#111111
+    style SYS1 fill:#F1EFE8,stroke:#5F5E5A,stroke-width:1px,color:#111111
+    style SYS2 fill:#F1EFE8,stroke:#5F5E5A,stroke-width:1px,color:#111111
+    style SYS3 fill:#F1EFE8,stroke:#5F5E5A,stroke-width:1px,color:#111111
+    style SYS4 fill:#F1EFE8,stroke:#5F5E5A,stroke-width:1px,color:#111111
+    style SYS5 fill:#F1EFE8,stroke:#5F5E5A,stroke-width:1px,color:#111111
 ```
 
 | | |
