@@ -1,0 +1,20 @@
+name: Check Markdown Links
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  linkcheck:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Check internal markdown links
+        uses: lycheeverse/lychee-action@v2
+        with:
+          # --offline: only check local file links, skip all http/https URLs
+          # This avoids rate-limit failures on external sites in CI
+          args: --offline '**/*.md'
+          fail: true
