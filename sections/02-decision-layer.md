@@ -19,9 +19,9 @@ flowchart TD
     B -->|"No, but it's classification\nor pattern-matching"| D{"Is a small classifier\n/ traditional ML enough?"}
     D -->|"Yes"| E["Classifier or traditional ML\nCheaper, faster, more auditable"]
     D -->|"No — needs language\nunderstanding or generation"| F["Continue to 2.2:\nwhich GenAI pattern"]
-    style C fill:#F1EFE8,stroke:#5F5E5A,stroke-width:1px
-    style E fill:#F1EFE8,stroke:#5F5E5A,stroke-width:1px
-    style F fill:#EEEDFE,stroke:#534AB7,stroke-width:1px
+    style C fill:#F1EFE8,stroke:#5F5E5A,stroke-width:1px,color:#111111
+    style E fill:#F1EFE8,stroke:#5F5E5A,stroke-width:1px,color:#111111
+    style F fill:#EEEDFE,stroke:#534AB7,stroke-width:1px,color:#111111
 ```
 
 **Why this matters more than people think:** a rules engine or classifier is cheaper to run, faster, fully deterministic, and trivially auditable for compliance. An LLM is none of those things by default. Every box that exits left in this diagram is a system that's easier to defend in a governance review, a security audit, and an incident postmortem.
@@ -54,10 +54,10 @@ flowchart TD
     E --> F
     F -->|"Yes — fixed steps"| G["Workflow\n(deterministic orchestration)"]
     F -->|"No — model must plan\nand adapt at runtime"| H["Agent\n(model-directed control flow)"]
-    style C fill:#E1F5EE,stroke:#0F6E56,stroke-width:1px
-    style E fill:#E1F5EE,stroke:#0F6E56,stroke-width:1px
-    style G fill:#EEEDFE,stroke:#534AB7,stroke-width:1px
-    style H fill:#EEEDFE,stroke:#534AB7,stroke-width:1px
+    style C fill:#E1F5EE,stroke:#0F6E56,stroke-width:1px,color:#111111
+    style E fill:#E1F5EE,stroke:#0F6E56,stroke-width:1px,color:#111111
+    style G fill:#EEEDFE,stroke:#534AB7,stroke-width:1px,color:#111111
+    style H fill:#EEEDFE,stroke:#534AB7,stroke-width:1px,color:#111111
 ```
 
 **Read this diagram as additive, not exclusive.** RAG and fine-tuning are *layers* you can combine; workflow vs. agent is the one binary choice at the end, and it's about control flow, not knowledge.

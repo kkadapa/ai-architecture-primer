@@ -20,7 +20,7 @@ flowchart LR
     GW --> M3["Provider 3"]
     GW -.-> LOG[("Centralized logs\n+ cost tracking")]
 
-    style GW fill:#EEEDFE,stroke:#534AB7,stroke-width:1px
+    style GW fill:#EEEDFE,stroke:#534AB7,stroke-width:1px,color:#111111
 ```
 
 **What it standardizes:**
@@ -50,8 +50,8 @@ flowchart LR
     DEPLOY -.->|"regression detected"| ROLLBACK["Roll back to\nprior version"]
     ROLLBACK --> REG
 
-    style REG fill:#E1F5EE,stroke:#0F6E56,stroke-width:1px
-    style TEST fill:#EEEDFE,stroke:#534AB7,stroke-width:1px
+    style REG fill:#E1F5EE,stroke:#0F6E56,stroke-width:1px,color:#111111
+    style TEST fill:#EEEDFE,stroke:#534AB7,stroke-width:1px,color:#111111
 ```
 
 **What it standardizes:** every prompt change is versioned, tested against an eval suite before deployment, and revertible the same way you'd revert any other code change. Without this, "we tweaked the prompt" becomes an untracked, unauditable production change — exactly the failure mode that makes agentic systems hard to trust.
@@ -88,8 +88,8 @@ flowchart LR
     LLM --> RESP["Response"]
     STORE -.-> CHECK
 
-    style CHECK fill:#F1EFE8,stroke:#5F5E5A,stroke-width:1px
-    style STORE fill:#E1F5EE,stroke:#0F6E56,stroke-width:1px
+    style CHECK fill:#F1EFE8,stroke:#5F5E5A,stroke-width:1px,color:#111111
+    style STORE fill:#E1F5EE,stroke:#0F6E56,stroke-width:1px,color:#111111
 ```
 
 Two layers worth distinguishing:

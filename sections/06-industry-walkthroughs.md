@@ -25,8 +25,8 @@ flowchart LR
     ACTION -->|"Low-stakes"| EXEC["Execute directly"]
     ACTION -->|"High-stakes\n(refund, account change)"| HUMAN["Human confirmation"]
 
-    style AGENT fill:#EEEDFE,stroke:#534AB7,stroke-width:1px
-    style HUMAN fill:#F1EFE8,stroke:#5F5E5A,stroke-width:1px
+    style AGENT fill:#EEEDFE,stroke:#534AB7,stroke-width:1px,color:#111111
+    style HUMAN fill:#F1EFE8,stroke:#5F5E5A,stroke-width:1px,color:#111111
 ```
 
 **What makes this hard in practice:** the action guardrails from Section 5.4 aren't optional here — a wrong autonomous refund is a real financial and compliance event, not a bad chat message. Identity propagation (3.2) also matters acutely: the agent must only access and act on the requesting customer's own account.
@@ -50,8 +50,8 @@ flowchart LR
     DRAFT --> REVIEW["Clinician review\n(mandatory)"]
     REVIEW --> USE["Used in care"]
 
-    style RAG fill:#E1F5EE,stroke:#0F6E56,stroke-width:1px
-    style REVIEW fill:#F1EFE8,stroke:#5F5E5A,stroke-width:1px
+    style RAG fill:#E1F5EE,stroke:#0F6E56,stroke-width:1px,color:#111111
+    style REVIEW fill:#F1EFE8,stroke:#5F5E5A,stroke-width:1px,color:#111111
 ```
 
 **What makes this hard in practice:** this is the clearest domain where "agent" is the wrong, over-eager answer. The simple pattern (RAG + fixed workflow + mandatory human review) is correct *because* the stakes are high, not despite them — auditability and a fixed, explainable path matter more than autonomy.
@@ -76,7 +76,7 @@ flowchart LR
     AGENT --> T3["Compensation policy\n(RAG)"]
     AGENT --> MSG["Customer\ncommunication"]
 
-    style AGENT fill:#EEEDFE,stroke:#534AB7,stroke-width:1px
+    style AGENT fill:#EEEDFE,stroke:#534AB7,stroke-width:1px,color:#111111
 ```
 
 **What makes this hard in practice:** the temptation is to let the LLM "figure out" rebooking logic in free text. Don't — push every deterministic calculation (fares, availability, eligibility) into tool calls the agent invokes, and keep the model's job to orchestration and natural-language communication, where it actually adds value.

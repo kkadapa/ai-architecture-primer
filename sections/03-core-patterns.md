@@ -29,9 +29,9 @@ flowchart TB
         LLM --> RESP["Response\n+ citations"]
     end
 
-    style VEC fill:#E1F5EE,stroke:#0F6E56,stroke-width:1px
-    style ORCH fill:#EEEDFE,stroke:#534AB7,stroke-width:1px
-    style LLM fill:#EEEDFE,stroke:#534AB7,stroke-width:1px
+    style VEC fill:#E1F5EE,stroke:#0F6E56,stroke-width:1px,color:#111111
+    style ORCH fill:#EEEDFE,stroke:#534AB7,stroke-width:1px,color:#111111
+    style LLM fill:#EEEDFE,stroke:#534AB7,stroke-width:1px,color:#111111
 ```
 
 | | |
@@ -54,10 +54,10 @@ flowchart LR
     TOOLS["Tools / APIs"] <--> AGENT
     MEM[("Memory")] <--> AGENT
 
-    style AGENT fill:#EEEDFE,stroke:#534AB7,stroke-width:1px
-    style KB fill:#E1F5EE,stroke:#0F6E56,stroke-width:1px
-    style TOOLS fill:#E1F5EE,stroke:#0F6E56,stroke-width:1px
-    style MEM fill:#E1F5EE,stroke:#0F6E56,stroke-width:1px
+    style AGENT fill:#EEEDFE,stroke:#534AB7,stroke-width:1px,color:#111111
+    style KB fill:#E1F5EE,stroke:#0F6E56,stroke-width:1px,color:#111111
+    style TOOLS fill:#E1F5EE,stroke:#0F6E56,stroke-width:1px,color:#111111
+    style MEM fill:#E1F5EE,stroke:#0F6E56,stroke-width:1px,color:#111111
 ```
 
 | | |
@@ -83,10 +83,10 @@ flowchart TB
     A2 --> SUP
     A3 --> SUP
 
-    style SUP fill:#EEEDFE,stroke:#534AB7,stroke-width:1px
-    style A1 fill:#E1F5EE,stroke:#0F6E56,stroke-width:1px
-    style A2 fill:#E1F5EE,stroke:#0F6E56,stroke-width:1px
-    style A3 fill:#E1F5EE,stroke:#0F6E56,stroke-width:1px
+    style SUP fill:#EEEDFE,stroke:#534AB7,stroke-width:1px,color:#111111
+    style A1 fill:#E1F5EE,stroke:#0F6E56,stroke-width:1px,color:#111111
+    style A2 fill:#E1F5EE,stroke:#0F6E56,stroke-width:1px,color:#111111
+    style A3 fill:#E1F5EE,stroke:#0F6E56,stroke-width:1px,color:#111111
 ```
 
 | | |
@@ -109,8 +109,8 @@ flowchart LR
     MCP --> SYS3["Internal APIs"]
     MCP --> SYS4["Databases"]
 
-    style AGENT fill:#EEEDFE,stroke:#534AB7,stroke-width:1px
-    style MCP fill:#F1EFE8,stroke:#5F5E5A,stroke-width:1px
+    style AGENT fill:#EEEDFE,stroke:#534AB7,stroke-width:1px,color:#111111
+    style MCP fill:#F1EFE8,stroke:#5F5E5A,stroke-width:1px,color:#111111
 ```
 
 | | |

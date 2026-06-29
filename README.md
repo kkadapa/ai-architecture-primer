@@ -44,6 +44,56 @@ Azure / AWS / Anthropic service tables for every pattern above — separated fro
 
 ---
 
+## Example architecture diagrams
+
+Two of the most-used patterns — rendered here so you can see the visual style before diving in.
+
+**Enterprise RAG** — the default starting pattern for most enterprise GenAI work. Two flows share one vector store: an offline ingestion pipeline and an online serving path.
+
+```mermaid
+flowchart TB
+    subgraph ingestion [" Offline ingestion "]
+        direction LR
+        DOC["Documents"] --> CHUNK["Chunk + embed"]
+        CHUNK --> VEC[("Vector store")]
+    end
+
+    subgraph serving [" Online serving "]
+        direction LR
+        REQ["User request"] --> ORCH["Orchestrator"]
+        ORCH -- "retrieve" --> VEC
+        VEC -- "top-k chunks" --> ORCH
+        ORCH --> LLM["LLM"]
+        LLM --> RESP["Response\n+ citations"]
+    end
+
+    style VEC fill:#E1F5EE,stroke:#0F6E56,stroke-width:1px,color:#111111
+    style ORCH fill:#EEEDFE,stroke:#534AB7,stroke-width:1px,color:#111111
+    style LLM fill:#EEEDFE,stroke:#534AB7,stroke-width:1px,color:#111111
+```
+
+**Tool-using agent** — when the task requires adaptive planning: the model runs a plan → act → observe loop, calling tools until it has a final answer.
+
+```mermaid
+flowchart LR
+    REQ["Request"] --> AGENT["Agent (FM)\nplan → act → observe"]
+    AGENT --> RESP["Response"]
+    KB[("Knowledge base")] <--> AGENT
+    TOOLS["Tools / APIs"] <--> AGENT
+    MEM[("Memory")] <--> AGENT
+
+    style AGENT fill:#EEEDFE,stroke:#534AB7,stroke-width:1px,color:#111111
+    style KB fill:#E1F5EE,stroke:#0F6E56,stroke-width:1px,color:#111111
+    style TOOLS fill:#E1F5EE,stroke:#0F6E56,stroke-width:1px,color:#111111
+    style MEM fill:#E1F5EE,stroke:#0F6E56,stroke-width:1px,color:#111111
+```
+
+> **Color key:** purple = compute / reasoning components · teal = data / knowledge resources · gray = deterministic steps or plain I/O
+
+See [Section III](sections/03-core-patterns.md) for all four patterns with full trade-off tables.
+
+---
+
 ## Design principle behind this primer
 
 Every pattern here is presented with three things, on purpose:

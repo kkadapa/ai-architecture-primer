@@ -20,7 +20,7 @@ Everything else in enterprise AI architecture — RAG, agents, memory, orchestra
 flowchart LR
     A["Input text + system prompt + context"] --> B["LLM (stateless)"]
     B --> C["Output text"]
-    style B fill:#EEEDFE,stroke:#534AB7,stroke-width:1px
+    style B fill:#EEEDFE,stroke:#534AB7,stroke-width:1px,color:#111111
 ```
 
 Keep this model in your head through the whole primer: **every pattern in Section III is just a different way of constructing what goes into that box, and a different way of acting on what comes out.**
@@ -59,8 +59,8 @@ flowchart TD
     B -->|"Yes, close enough"| C["Buy / configure\n(e.g. Copilot, vendor chatbot)"]
     B -->|"No — needs your data,\nworkflow, or systems"| D["Build"]
     D --> E["Continue to Section II:\nthe decision layer"]
-    style C fill:#E1F5EE,stroke:#0F6E56,stroke-width:1px
-    style E fill:#EEEDFE,stroke:#534AB7,stroke-width:1px
+    style C fill:#E1F5EE,stroke:#0F6E56,stroke-width:1px,color:#111111
+    style E fill:#EEEDFE,stroke:#534AB7,stroke-width:1px,color:#111111
 ```
 
 The mistake to watch for in either direction:

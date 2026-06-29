@@ -26,11 +26,11 @@ flowchart TB
     GUARD --> SYS
     MON --> SYS
 
-    style SYS fill:#EEEDFE,stroke:#534AB7,stroke-width:1px
-    style EVAL fill:#E1F5EE,stroke:#0F6E56,stroke-width:1px
-    style OBS fill:#E1F5EE,stroke:#0F6E56,stroke-width:1px
-    style GUARD fill:#E1F5EE,stroke:#0F6E56,stroke-width:1px
-    style MON fill:#E1F5EE,stroke:#0F6E56,stroke-width:1px
+    style SYS fill:#EEEDFE,stroke:#534AB7,stroke-width:1px,color:#111111
+    style EVAL fill:#E1F5EE,stroke:#0F6E56,stroke-width:1px,color:#111111
+    style OBS fill:#E1F5EE,stroke:#0F6E56,stroke-width:1px,color:#111111
+    style GUARD fill:#E1F5EE,stroke:#0F6E56,stroke-width:1px,color:#111111
+    style MON fill:#E1F5EE,stroke:#0F6E56,stroke-width:1px,color:#111111
 ```
 
 ## 5.2 Evaluation
@@ -60,7 +60,7 @@ flowchart LR
     T2 -.-> LOG
     T3 -.-> LOG
 
-    style LOG fill:#E1F5EE,stroke:#0F6E56,stroke-width:1px
+    style LOG fill:#E1F5EE,stroke:#0F6E56,stroke-width:1px,color:#111111
 ```
 
 **Why this matters more for agents than for simple RAG:** when an agent makes a wrong decision, the question is never just "what did it answer" — it's "what did it retrieve, what tool did it call, with what arguments, and at what point did the reasoning go sideways." Without step-level tracing, debugging an agent in production is close to impossible.
@@ -91,7 +91,7 @@ flowchart LR
     DASH --> C3["Token volume trend"]
     DASH --> C4["Alert on anomaly"]
 
-    style DASH fill:#EEEDFE,stroke:#534AB7,stroke-width:1px
+    style DASH fill:#EEEDFE,stroke:#534AB7,stroke-width:1px,color:#111111
 ```
 
 **Get right:** track cost and latency **per team and per use case**, not just in aggregate. An org-wide average hides the one runaway agent burning 80% of the budget. This also closes the loop back to Section 1.3's capability-tier routing — without per-use-case cost visibility, nobody notices that a high-volume simple task has been quietly sending every call to the most expensive model tier.
